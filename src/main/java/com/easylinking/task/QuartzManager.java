@@ -181,7 +181,7 @@ public class QuartzManager {
 	 */
 	public static void startJobs() {
 		try {
-			
+			System.out.println("\n\n");
 			Utils.formatPrint("开始执行定时定时任务......");
 			Scheduler sched = gSchedulerFactory.getScheduler();
 			sched.start();

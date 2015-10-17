@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
+import java.util.UUID;
 import com.easylinking.tools.Utils;
 import com.huawei.uds.services.UdsConfiguration;
 import com.huawei.uds.services.UdsService;
+import com.huawei.uds.services.model.LifecycleConfiguration;
 import com.huawei.uds.services.model.PutObjectResult;
 
 public class FileService {
@@ -132,11 +133,33 @@ public class FileService {
 			config.setEndpointHttpPort(5080);
 			config.setHttpsOnly(false);
 			config.setDisableDnsBucket(true);
-
+			
 			UdsService service = new UdsService(AK, SK, config);
-
+			
+			
+			LifecycleConfiguration lifecycleConfig = new LifecycleConfiguration();
+			
+			String id = UUID.randomUUID().toString();
+			String prefix = productDbDir ;
+			boolean enabled = true ;
+			
+			LifecycleConfiguration.Rule rule = lifecycleConfig.newRule(id, prefix, enabled);
+			
+			//周期配置
+			LifecycleConfiguration.Expiration expiration = lifecycleConfig.new Expiration();
+			
+			//设置有效期
+			expiration.setDays(Utils.avlidDays);
+			
+			rule.setExpiration(expiration );
+			lifecycleConfig.addRule(rule);
+			
+			//设置同的生命周期
+			service.setBucketLifecycleConfiguration(bucketName, lifecycleConfig);
+			
+			
 			PutObjectResult result = service.putObject(bucketName,file.getName(), file);
-
+			
 			Utils.formatPrint("etag=" + result.getEtag());
 
 			Utils.formatPrint("上传到生产环境文件["+currentFile+"]操作成功......");
