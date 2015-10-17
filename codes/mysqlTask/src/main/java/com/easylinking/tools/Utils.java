@@ -26,6 +26,8 @@ public class Utils {
 	public static String dbUser = null;
 	public static String dbPasswd = null;
 	
+	public static int avlidDays ;
+	
 	public static String time = null ;
 	
 	static {
@@ -42,6 +44,8 @@ public class Utils {
 			Utils.dbPasswd = prop.getProperty("dbPasswd").trim();
 			
 			Utils.time = prop.getProperty("time").trim();
+			
+			Utils.avlidDays = Integer.valueOf(prop.getProperty("avlidDays").trim());
 			
 		} catch (IOException e) {
 			Utils.formatPrint("读取config.properties出错,退出定时任务!");
