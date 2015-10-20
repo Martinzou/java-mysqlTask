@@ -34,7 +34,7 @@ public class Utils {
 		Properties prop = new Properties();
 		InputStream in = null;
 		try {
-			in = DBService.class.getClassLoader().getResourceAsStream("config.properties");
+			in = Utils.class.getClassLoader().getResourceAsStream("config.properties");
 			prop.load(in);
 			Utils.dbDriver = prop.getProperty("dbDriver").trim();
 			Utils.dbUrl = prop.getProperty("dbUrl").trim();
