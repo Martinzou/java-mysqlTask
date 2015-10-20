@@ -143,7 +143,7 @@ public class FileService {
 			String prefix = productDbDir ;
 			boolean enabled = true ;
 			
-			LifecycleConfiguration.Rule rule = lifecycleConfig.newRule(id, prefix, enabled);
+			LifecycleConfiguration.Rule rule = lifecycleConfig.newRule("mysqlTask",prefix, enabled);
 			
 			//周期配置
 			LifecycleConfiguration.Expiration expiration = lifecycleConfig.new Expiration();
@@ -153,6 +153,7 @@ public class FileService {
 			
 			rule.setExpiration(expiration );
 			lifecycleConfig.addRule(rule);
+			
 			
 			//设置同的生命周期
 			service.setBucketLifecycleConfiguration(bucketName, lifecycleConfig);
