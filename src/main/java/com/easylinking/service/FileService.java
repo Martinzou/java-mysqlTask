@@ -3,8 +3,9 @@ package com.easylinking.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
+
 import com.easylinking.tools.Utils;
 import com.huawei.uds.services.UdsConfiguration;
 import com.huawei.uds.services.UdsService;
@@ -139,11 +140,20 @@ public class FileService {
 			
 			LifecycleConfiguration lifecycleConfig = new LifecycleConfiguration();
 			
-			String id = UUID.randomUUID().toString();
-			String prefix = productDbDir ;
+			
+			String localBucketName = bucketName+"/"+Utils.getCurrDay() ;
+			
+			String prefix = bucketName ;
 			boolean enabled = true ;
 			
-			LifecycleConfiguration.Rule rule = lifecycleConfig.newRule("mysqlTask",prefix, enabled);
+			LifecycleConfiguration.Rule rule = lifecycleConfig.newRule("mysqlTask2015",prefix, enabled);
+			
+			
+			List<LifecycleConfiguration.Rule> list = lifecycleConfig.getRules();
+			
+			for(LifecycleConfiguration.Rule r:list){
+				System.out.println("RuleId---------------------->"+r.getId());
+			}
 			
 			//周期配置
 			LifecycleConfiguration.Expiration expiration = lifecycleConfig.new Expiration();
@@ -156,10 +166,10 @@ public class FileService {
 			
 			
 			//设置同的生命周期
-			service.setBucketLifecycleConfiguration(bucketName, lifecycleConfig);
+			service.setBucketLifecycleConfiguration(localBucketName, lifecycleConfig);
 			
 			
-			PutObjectResult result = service.putObject(bucketName,file.getName(), file);
+			PutObjectResult result = service.putObject(localBucketName,file.getName(), file);
 			
 			Utils.formatPrint("etag=" + result.getEtag());
 

@@ -307,6 +307,10 @@ public class Utils {
 
 		saveSql(columns, tableName, sql.toString());
 	}
+	
+	public static String getCurrDay(){
+		return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+	}
 
 	//格式化打印
 	public static void formatPrint(String msg) {
