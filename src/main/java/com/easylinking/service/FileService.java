@@ -141,19 +141,10 @@ public class FileService {
 			LifecycleConfiguration lifecycleConfig = new LifecycleConfiguration();
 			
 			
-			String localBucketName = bucketName+"/"+Utils.getCurrDay() ;
-			
-			String prefix = bucketName ;
+			String prefix = "" ;
 			boolean enabled = true ;
 			
 			LifecycleConfiguration.Rule rule = lifecycleConfig.newRule("mysqlTask2015",prefix, enabled);
-			
-			
-			List<LifecycleConfiguration.Rule> list = lifecycleConfig.getRules();
-			
-			for(LifecycleConfiguration.Rule r:list){
-				System.out.println("RuleId---------------------->"+r.getId());
-			}
 			
 			//周期配置
 			LifecycleConfiguration.Expiration expiration = lifecycleConfig.new Expiration();
@@ -166,10 +157,8 @@ public class FileService {
 			
 			
 			//设置同的生命周期
-			service.setBucketLifecycleConfiguration(localBucketName, lifecycleConfig);
 			
-			
-			PutObjectResult result = service.putObject(localBucketName,file.getName(), file);
+			PutObjectResult result = service.putObject(bucketName,file.getName(), file);
 			
 			Utils.formatPrint("etag=" + result.getEtag());
 
